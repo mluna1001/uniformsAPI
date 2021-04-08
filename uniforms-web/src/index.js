@@ -27,6 +27,7 @@ new Vue({
             colores: ['green', 'info', 'error', 'cyan darken-2'],
         },
         isBusy: false,
+        message: ''
     }),
     render: h => h(App)
 }).$mount('#app');

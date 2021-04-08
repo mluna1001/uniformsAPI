@@ -56,7 +56,7 @@ module.exports = {
         new VueLoaderPlugin(),
         new VuetifyLoaderPlugin(),
         new HtmlWebpackPlugin({
-            template: './src/index.html'
+            template: './src/public/index.html'
         }),
         new MiniCssExtractPlugin({
             filename: 'assets/[name].css'

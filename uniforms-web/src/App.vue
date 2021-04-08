@@ -48,7 +48,7 @@
                     dark
                 >
                     <v-card-text>
-                        Espere por favor...
+                        {{ $root.message }}
                         <v-progress-linear
                             indeterminate
                             color="white"
@@ -77,7 +77,7 @@ export default {
     name: 'App',
     data() {
         return {
-            drawer: false,
+            drawer: true,
             title: 'Hola mundo',
             vusuario: {
                 menuDtoL: [
@@ -105,7 +105,6 @@ export default {
             alert('Cerrando sesión')
         },
         Default() {
-            debugger;
             this.$vuetify.theme.themes.name = '';
         }
     },

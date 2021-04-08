@@ -11,19 +11,12 @@ namespace UniformsAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GarmentController : ControllerBase
+    public class EmployeesController : ControllerBase
     {
         [HttpGet]
-        public Response Get(int employeeId)
+        public Response Get()
         {
-            var response = GarmentQuery.Get(employeeId);
-            return response;
-        }
-
-        [HttpGet("[action]")]
-        public Response GetSizes(int garmentId)
-        {
-            var response = GarmentQuery.GetSizes(garmentId);
+            var response = EmployeeQuery.Get();
             return response;
         }
     }

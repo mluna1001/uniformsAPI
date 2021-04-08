@@ -18,7 +18,15 @@ namespace UniformsAPI.Domain.Queries
             {
                 using (var db = new UniformsContext())
                 {
-                    var lst = db.Employees.ToList();
+                    var lst = (from e in db.Employees
+                               join g in db.GroupEmployees on e.GroupEmployeeId equals g.GroupEmployeeId
+                               join et in db.EmployeeTypes on g.EmployeeTypeId equals et.EmployeeTypeId
+                               select new 
+                                {
+                                    EmployeeId = e.EmployeeId,
+                                    Name = $"{ e.EmployeeId } - { e.Name }",
+                                    EmployeeTypeId = et.EmployeeTypeId
+                                }).ToList();
                     if (lst != null && lst.Count > 0)
                     {
                         response.Data = lst;

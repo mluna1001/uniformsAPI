@@ -10,7 +10,7 @@ namespace UniformsAPI.Domain.Queries
 {
     public class GarmentQuery
     {
-        public static Response Get(int employeeTypeId)
+        public static Response Get(int employeeId)
         {
             var response = new Response();
 
@@ -18,6 +18,9 @@ namespace UniformsAPI.Domain.Queries
             {
                 using (var db = new UniformsContext())
                 {
+                    var groupEmployeeId = db.Employees.FirstOrDefault(e => e.EmployeeId == employeeId).GroupEmployeeId;
+                    var employeeTypeId = db.GroupEmployees.FirstOrDefault(e => e.GroupEmployeeId == groupEmployeeId).EmployeeTypeId;
+
                     var lst = (from g in db.Garments
                                where g.EmployeeTypeId == employeeTypeId
                                select new
@@ -60,8 +63,9 @@ namespace UniformsAPI.Domain.Queries
                     var lst = (from gs in db.GarmentSizes
                                join s in db.Sizes on gs.SizeId equals s.SizeId
                                where gs.GarmentId == garmentId
-                               select new Size
+                               select new
                                {
+                                   GarmentSizeId = gs.GarmentSizeId,
                                    SizeId = s.SizeId,
                                    Description = s.Description + " - CM:" + s.Centimeters + "; US:" + s.AmericanSize + "; EU:" + s.EuropeanSize + "; MX:" + s.MexicanSize
                                }).ToList();
