@@ -64,6 +64,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'Uniforms',
     data: () => ({
@@ -102,10 +104,10 @@ export default {
             this.$root.isBusy = true;
             this.$root.message = 'Cargando uniformes a entregar...';
             fetch(`https://localhost:44334/api/Garment?employeeId=${employeeId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        this.vGarments = data.data;
+                .then(responseGarm => responseGarm.json())
+                .then(dataGarm => {
+                    if (dataGarm.success) {
+                        this.vGarments = dataGarm.data;
                         this.$root.isBusy = false;
                     }
                 })
@@ -121,11 +123,11 @@ export default {
             this.$root.isBusy = true;
             this.$root.message = 'Cargando tallas del uniforme...';
             fetch(`https://localhost:44334/api/Garment/GetSizes?garmentID=${garmentId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
+                .then(responseSize => responseSize.json())
+                .then(dataSize => {
+                    if (dataSize.success) {
                         debugger;
-                        this.vSizes = data.data;
+                        this.vSizes = dataSize.data;
                         this.$root.isBusy = false;
                     }
                 })
@@ -137,20 +139,22 @@ export default {
         saveDeliver(){
             this.$root.isBusy = true;
             this.$root.message = 'Procesando información...';
-            fetch(`https://localhost:44334/api/Delivery`, this.vGarmentDeliver)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        this.$toaster.success(data.message);
-                        this.$root.isBusy = false;
-                    } else {
-                        this.$toaster.warning(data.message);
-                    }
-                })
-                .catch(err => {
-                    this.$root.isBusy = false;
-                    this.$toaster.success(err);
-                });
+            axios.post('https://localhost:44334/api/Delivery', this.vGarmentDeliver)
+            .then(response => {
+                debugger;
+                if (response.data.success) {
+                    this.$toaster.success(response.data.message);
+                } else {
+                    this.$toaster.warning(response.data.message);
+                }
+                this.$root.isBusy = false;
+                this.vGarmentDeliver = { employeeId: 0, garmentSizeID: 0 }
+            })
+            .catch(err => {
+                this.$toaster.error(err);
+                this.$root.isBusy = false;
+                this.vGarmentDeliver = { employeeId: 0, garmentSizeID: 0 }
+            })
         }
     }
 }
