@@ -7,6 +7,7 @@ Tecnologías utilizadas:
 - ASP.NET Core API
 - Entity Framework Core
 - SQL Server
+- Node.js
 - Vue.js (Vuetify, Webpack)
 
 Orden de ejecución:
